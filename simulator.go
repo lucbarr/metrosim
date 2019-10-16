@@ -36,21 +36,26 @@ func (s *Simulator) String() string {
 		sb.WriteString(fmt.Sprintf("station %v : women %v men %v\n", i, s.NumberOfMen[i], s.NumberOfWomen[i]))
 	}
 
-	sb.WriteString(fmt.Sprintf("normal women %v men %v pink %v\n", s.WomenInNormalWagon, s.MenInNormalWagon, s.WomenInPinkWagon))
+	sb.WriteString(fmt.Sprintf("normal women %v men %v pink %v", s.WomenInNormalWagon, s.MenInNormalWagon, s.WomenInPinkWagon))
 
 	return sb.String()
 }
 
 // Run updates the simulator state by n steps
-func (s *Simulator) Run(steps int) {
-	for i := 0; i < steps; i++ {
+func (s *Simulator) Run(maxSteps int, maxTime float64) {
+	var time float64
+	for i := 0; i < maxSteps; i++ {
 		fmt.Println(s)
-		s.Step()
+		time += s.Step()
+		fmt.Println("time: ", time)
+		if time > maxTime {
+			break
+		}
 	}
 }
 
 // Step performs a state update
-func (s *Simulator) Step() {
+func (s *Simulator) Step() float64 {
 	time := s.nextWagonWait()
 
 	// update entry
@@ -114,6 +119,8 @@ func (s *Simulator) Step() {
 	s.NumberOfWomen[s.CurrentStation] = 0
 
 	s.CurrentStation = (s.CurrentStation + 1) % 3
+
+	return time
 }
 
 func (s *Simulator) nextWagonWait() float64 {

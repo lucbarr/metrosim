@@ -15,5 +15,5 @@ func main() {
 		TotalCapacity:  10000,
 	}
 
-	sim.Run(100)
+	sim.Run(100, 120)
 }
