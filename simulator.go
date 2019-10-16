@@ -59,7 +59,7 @@ func (s *Simulator) Step() {
 
 		var women, men int
 		for j := 0; j < entry; j++ {
-			if rand.Float64() < womenRate {
+			if rand.Float64() > womenRate {
 				women++
 			} else {
 				men++
